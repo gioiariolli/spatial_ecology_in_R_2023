@@ -1,28 +1,68 @@
 install.packages("devtools") #we install it from CRAN
 library(devtools)
-?devtools
-devtools::install_github("ducciorocchini/imageRy", force=TRUE) #we install it from github, through devtools
-library(imageRy)
-plot(imageRy)
-
-install.packages("terra")
 
 #devtools is used to install packages directly from other repository, such as github
 #and not only directly from R
 #CRAN is the network of all the packages included in R
 #github is also a packages comprehensory, those packages are additional to the CRAN's ones
-3
-#lets use the same "im" prefix for each function
-#now we will use this package
-im.list()
-library(imageRy)
-library(terra)
+
+
+
 #We will use the following images called sentinel as the project and dolomites, since the picures have been taken there
 #the colors in the images are satelitte infrared iamages and each color has a correspondant band value
 #HOW DO WE IMPORT THE DIFFERENT LAYERS?
 #we use the function im.import(name of the image of that specific layer)
+devtools::install_github("ducciorocchini/imageRy", force=TRUE) #we install it from github, through devtools
 
-im.import("sentinel.dolomites.b2.tif")
-"sentinel.dolomites.b3.tif"
-"sentinel.dolomites.b4.tif"
-"sentinel.dolomites.b8.tif"
+library(imageRy)
+3
+install.packages("terra")
+library(terra)
+
+#lets use the same "im" prefix for each function
+#now we will use this package
+
+im.list()
+b2 <- im.import("sentinel.dolomites.b2.tif")
+b2
+
+#global circulation
+#latitude is the angle formed between the perpendicolar line that the point make on the elipsoide
+#and the equator, so the angle of the latitude of a certain point P doesn't pass through the earth's centre
+#even though the earth is always represented as a sphere, it actually is
+#an elipsoide
+#if you have two different elipsoide, for the same point P you will obtian two measures
+#as a value of the latitude at that point P
+#one value will be higher than another, so it is not enough knowing which latitude we are using
+#but we especially need also the geodetic datum (which elipsoide are we using to measure)
+#or the value won't have any meaning
+#an example of system is WGS84 or world geodetic system
+#UTM or Universal Transverse Mercator, cutting earth in angles and every one
+#of them is 6 degrees. The earth is so divided in 60 zones.their numbered
+#starting from Greenwhich. Italy is in the 32nd and 33rd zones.
+#in general, if you want to overlap some datas, they must be in the same reference system
+#this info are stated under the ''coordinates reference''
+#overlapping= translation of a reference system in front of another
+#and how do we do that? with the:
+#six parameters transformation= translation in x,y,z and rotation in x,y,z
+
+
+#lets change the colors of the b2
+cl2 <- colorRampPalette(c("black", "grey", "white")) (100)
+plot(b2, col=cl2)
+#the more the blue is reflected, the closer to the minimum value (black) 2000 we are
+#opposite, the more the blue is absorbed, the closer to the maximum value (white color) 5000 we will be
+
+#EXERCISE
+#import the green band from sentinel-2 (band 3)
+#this is where the green is absorbed and reflected
+b3 <- im.import("sentinel.dolomites.b3.tif")
+b3
+cl3 <- colorRampPalette(c("black", "grey", "white")) (100)
+plot(b3, col=cl3)
+
+#lets plot them all together
+par(mfrow=c(1,2))
+plot(b2, col=cl2)
+plot(b3, col=cl3)
+
