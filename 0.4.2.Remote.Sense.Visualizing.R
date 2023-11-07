@@ -30,6 +30,7 @@ b8
 
 plot(b8, col=cl)
 
+#NEW FUNCTIONS IN R
 #lets plot all the layers together in 2 rows and 2 columns
 par(mfrow=c(2,2))
 plot(b2, col=cl) #band 2 is blue
@@ -80,12 +81,12 @@ plot(b8, col=cl8)
 cl8 <- colorRampPalette(c("red", "orange", "yellow")) (100)
 
 #RGB space, it stays for RedGreenBlue
-#As we seen, our stack is composed by differnt band associted to different colors and different numbers: 
+#As we seen, our stack is composed by differnt band associated with different colors and different numbers: 
 #band2, blue element number 1, in code terms (stack[[1]])
 #band3 green element number 2,(stack[[2]])
 #band4 red element number 3, (stack[[3]])
 #band8 infrared element number 4, (stack[[4]])
 
 #HOW DO WE PLOT THE THREE LAYERS ONE ON THE TOP OF THE OTHERS?
-#We use the function "im.plotRGB()", this allow R to create an image fully colored
+#We use the function "im.plotRGB()", this allow R to create an image fully colored (as human being can see)
 im.plotRGB(stack, r=3, g=2, b=1)
