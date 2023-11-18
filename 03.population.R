@@ -21,8 +21,7 @@ plot(bei, cex=0.5)
 
 #HOW TO PASS FROM POINTS TO CONTINUOUS SURFACE? 
 #WE USE THE INTERPOLATION
-#we use the "density" function to create the density map
-#and we rename it
+#we use the "density" function to create the density map and we rename it
 density.map <- density(bei)
 density.map
 #on the console is it shown that now we are working with pixels
@@ -31,8 +30,7 @@ plot(density.map)
 #blue is low density instead yellow is high density
 
 #HOW TO PUT THE POINTS ON THE TOP OF THE DENSITY MAP?
-#we use the "points" function, but not creating a new variable
-#just adding it to the past "bei" plot
+#we use the "points" function, but not creating a new variable just adding it to the past "bei" plot
 points(bei, cex=0.2)
 
 #HOW TO CHANGE THE DENSITY MAP COLORS?
@@ -53,11 +51,11 @@ cl.ex2 <-colorRampPalette(c("aquamarine", "coral", "darkred", "cornsilk"))(100)
 plot(density.map, col=cl.ex2)
 
 #HOW TO HAVE AN ADDITION VARIABLE?
-#We use the "extra", in our case we will add the "elevation" to 
-#the gradiant
+#We use the "extra", in our case we will add the "elevation" to the gradiant
 plot(bei.extra)
-#We set the elevation into an element which we call elev
-#and we plot it, we will obtain only the elevation plot
+
+#We set the elevation into an element which we call elev and we plot it
+#we will obtain only the elevation plot
 elev <- bei.extra[[1]] #bei.extra$elev
 plot(elev)
 
