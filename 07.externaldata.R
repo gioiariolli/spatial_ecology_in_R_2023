@@ -1,7 +1,7 @@
 #Working directory=
-#We need to create a folder in which we download all the images (from earth observatory as an example) 
+#We need to create a folder in which we download all the images (from Earth observatory as an example) 
 #and so where all the data are stored.
-#We then will import the new folder, present in our computer, inside R. 
+#We then will import the new folder, already present in our computer, inside R. 
 #This folder will be our working directory in R.
 
 install.packages("terra")
