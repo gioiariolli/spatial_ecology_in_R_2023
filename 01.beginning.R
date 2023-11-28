@@ -1,60 +1,72 @@
-# Under the hashtag the software R will not detect the code, this is a Mark Down project. This is just a comment.
+# Under the hashtag the software R will not detect the code. This is just a comment.
 
 # exercise
 # We will use R as a simple calculator
 2 + 3
 
-# we can assign a value to an object, creating a variable
+#Whenever we want to assign a value to an object, we rename the object. 
+#This how to create a new variable with an assigned value.
 a <- 2+ 3
 a
 
 gioia <- 3+5
 gioia
 
+#We can perform operations by using our new variables.
 gioia * a
 
+#To store the final operation result we rename it as "final"
 final <- a*gioia
 final
-# in this way the result will be stored under ''final''
 
-final^2 #the result multiply for itself
+#Another basic operation: the result multiply for itself
+final^2 
 
-# array, a series of info coded all together
-# in this example we have collected datas about how many grams of microplastics we found in different spots of a lake
+# ARRAY, a series of info coded all together.
+# Example: we collected data about how many grams of microplastics we found in different spots of a lake.
+# We concatenate all the data by using the "c" FUNCTION, in this way we created an array, all the collected 
+# data stored inside are now called ARGUMENTS.
 
-sophi <- c(10, 20, 30, 50, 70) # of course we need to CONCATENATE them, or R will not be able to read the code
-# in this way we create a FUNCTION, all the datas inside, settled as numbers, are called ARGUMENTS
+sophi <- c(10, 20, 30, 50, 70) 
 sophi # run the code
 
-# let's add some data. We consider different amount of people in the different considered spots
+# Let's add some data. 
+# Example: We consider different amount of people in the different lake spots considered before.
+# This is going to be our second variable:
 paula <- c(100, 500, 600, 1000, 2000)
 
-#we can now create a plot between the two data
+# We can now create a plot between the two variables.
+# HOW TO CREATE A PLOT?
+# We use the "plot" function.
 
 plot(paula, sophi)
 plot
-#in this way for each data collected from Sophi in a specific spot, we collected the data collected 
-#from Paula in that same spot and we plotteed them in a graphic to see if there's a 
-#demonstrate if the amount of microplastics is related to the amount of people
 
-#so now I can modify the plotting labels by using this function
+# By plotting the two variables together, we observed a  direct correlation between them.
+
+# Lets say that now I want to modify the plotting labels.
+# HOW DO I ASSING NAMES TO THE LABELS?
+# By using the "xlab" and the "ylab" arguments for the x axis and the y axis.
+
 plot(paula, sophi, xlab="number of people", ylab="microplastics")
-plot
+plot 
 
-#ANOTHER WAY TO DO IT is to assign the so-called object to a new called one
+#OR I CAN assign to the old objects new names and then plotting them together 
 people <- paula
 microplastics <-sophi
-
 plot(people, microplastics)
 
-#let's imagine that WE WANT TO CHANGE THE PLOT, by using another symbol
-# an argument of plot is called PCH, look at "point symbols in R" on google
+# HOW DO WE CHANGE SYMBOLS IN THE PLOT?
+# By using the "pch" plot's argument. To know which one to use, we google "point symbols in R".
 
 plot(people, microplastics, pch=19)
 
-#or if we want to change the characters dimension with the CEX function (character exageration)
+# HOW DO WE CHANGE THE SIZE OF OUR PLOT POINTS?
+# By using the "cex" plot's argument.
+
 plot (people, microplastics, pch=19, cex= 2)
 
-#How to change points' color? function COL
+# HOW TO CHANGE THE POINTS' COLOR?
+# By using the "col" plot's argument.
 plot(people, microplastics, pch=19, cex=2, col="green")
 
