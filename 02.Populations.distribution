@@ -1,28 +1,35 @@
+# Why populations disperse over the landscape in a certain manner?
 
-############# Lesson 12/10/2023
-#Why populations disperse over the landscape in a certain manner?
-library(sdm) #species distribution model
-install.packages("sdm")
+# HOW TO INSTALL NEW PACKAGES IN R?
+# By using the function "install.packages("name of the package").
+# Note that, since we are importing external data in R, it is important to quote the name of the package.
+
+install.packages("sdm") 
+library(sdm) #This function is to make sure that the download completed successfully.
 install.packages("terra")
 library(terra) 
 
-#"system.file" function is made to check the name of a file inside R folder
+# HOW TO CHECK FILES' NAMES INSIDE AN R FOLDER?
+# By using the "system.file" function and by specifing under parenthesis the package name.
+
 system.file("external/species.shp", package="sdm")
 file <- system.file("external/species.shp", package="sdm") 
-file
+file # after running the code, the names will be showned on the R console
 
-#HOW TO USE THIS FILE?
-#First of all in geography this is a VECTOR file
-#with coordinates, and we imported 
-#in terra package there's a function that deals with vectors
+# HOW TO USE THIS FILE?
+# Since this is a VECTOR FILE, with the relative geographic coordinates, we will use the "vect" function
+# This particular function, present in terra package, deals with vectors in the R space.
 
 rana <- vect(file)
-#to like two elements in R we use the $ symbol
+
+# HOW TO LINK TWO ELEMENTS TOGETHER?
+# We use the $ symbol.
+
 rana$Occurrence
-#these codes are called PRESENCES AND ABSENCES DATA (on the console is shown 0, 1,0 and etc)
-#0 is an uncertain data, because it could be a error 
-#of your evaluation/monitoration
-#HOW DO WE SEE THE DATA? again with plot function
+
+# These codes are called PRESENCES and ABSENCES data (on the console is shown 0, 1, 0 and etc)
+# 0 is an uncertain data, because it could be a error of your evaluation/monitoration
+#HOW TO VISUAL SEE THE DATA? again with plot function
 plot(rana)
 plot (rana, cex= 0.5)
 
