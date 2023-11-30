@@ -1,5 +1,4 @@
 
-############################
 data(kerinci) #data set of Kerinci National park in Sumatra, Indonesia
 head(kerinci)
 #on the console different variables will appear
@@ -18,6 +17,7 @@ tiger #so this is the new data set in which I only have tigers
 #selecting the time
 Timerad <- kerinci$Time * 2 * pi
 #we can add an additional coloumn in the data set in which we make the above calculation
+
 #HOW TO ASSIGN A CALCULATION TO A NEW OBJECT WHICH IS INSIDE THE DATA SET?
 #"Timerad" is the function and it will be the name of the new coloums
 #This will measure time in radiants
