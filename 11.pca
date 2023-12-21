@@ -1,0 +1,73 @@
+# measuring variability from RS imagery
+
+library(terra)
+library(imageRy)
+library(viridis)
+
+im.list()
+
+sent <- im.import("sentinel.png")
+
+im.plotRGB(sent, 1, 2, 3)
+
+nir <- sent[[1]] 
+#standard deviation can be calculated only for one band, that' why then we will apply multivariate analysis
+
+# EXERCISE
+# To calculate variability in a 7x7 moving window
+sd7 <-focal(nir, matrix(1/49, 7, 7), fun=sd)
+plot(sd7, col=viridis)
+
+# To plot together the 7x7 and the 3x3
+par(mfrow=c(1,2))
+plot(sd7, col=viridis) #here you have more variability because the focal window is bigger so you include more pixels
+plot(sd3, col=viridis)
+
+#to have the rgb plot of the original image and the standard deviation ot the right 
+par(mfrow=c(1,2))
+im.plotRGB(sent, r=2, g=1, b=3)
+plot(sd7, col=viridis)
+#high variability in the ecosystem means more species living in the ecosystem
+
+calculation
+sd3 <- focal(nir, matrix(1/9, 3, 3), fun=sd) # function focal can be used for other stathitistic calculation (always for only one layer)
+
+viridis <- colorRampPalette(viridis(7))(255)
+plot(sd7, col=viridis)
+
+#when you have a 4th element how do you do?
+#compact the three bands of sentinel for example in only one band (stack them)
+#also because standard variation can be calculated only for a layer. in this way we can calculate sd for the three bands
+# the axis where the widest range of the data lays is called principal component 1
+# the axis perperndicular to the first is called second principal component and is where the smallest range of data lays
+
+# we will use pca
+# first we take sentinel data and, instead of choosing only one band, we perform pca, than we take the first principal components and use it for the calculation
+im.list()
+sent <- im.import("sentinel.png")
+pairs(sent) # vedi da Stefania i commenti
+dev.off()
+#Now we perform PCA
+sentpc <- im.pca2(sent)
+pc1 <- sentpc$PC1 #we link it with PC1 value
+plot(pc1, col=viridis)
+viridis <- colorRampPalette(viridis(7))(255)
+pc1.sd3 <- focal(pc1, matrix(1/9, 3,3), fun=sd)
+plot(pc1.sd3, col=viridis)
+
+pc1.sd7 <- focal(pc1, matrix(1/49, 7, 7), fun=sd)
+plot(pc1.sd7, col=viridis)
+
+# we basically choose all the bands that we wanted to calculate
+# we plot all together, again we can also use the stack function
+par(mfrow=c(2,3))
+im.plotRGB(sent, r=2, g=1, b=3)
+plot(sd3, col=viridis) #the standard deviaiton is showing the amount of variability in a moving window, more local
+plot(sd7, col=viridis) #wider moving window
+plot(pc1, col=viridis)
+plot(pc1.sd3, col=viridis) 
+plot(pc1.sd7, col=viridis)
+
+#or
+
+# we than obtain the sd value
