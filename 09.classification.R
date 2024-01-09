@@ -3,6 +3,7 @@
 
 library(terra)
 library(imageRy)
+library(patchwork)
 im.list()
 
 # Image from the solar orbit
