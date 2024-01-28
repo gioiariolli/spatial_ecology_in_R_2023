@@ -93,8 +93,13 @@ dev.off()
 #At last we show the different carbon monoxide concentration between february and march of the same year
 #This practice has a arge impact on human health too
 
-CO_feb <- rast("Carbon_monoxide_feb.jpeg")
+
+suppressWarnings({
+  CO_feb <- rast("Carbon_monoxide_feb.jpeg")
+})
+suppressWarnings({
 CO_march <- rast("Carbon_monoxide_march.jpeg")
+})
 
 par(mfrow=c(1,2))
 plot(CO_feb)
