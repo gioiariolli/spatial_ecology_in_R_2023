@@ -24,44 +24,6 @@ plot(BA_april_2022)
 title("Burned Areas April", line = -1, cex=2) 
 dev.off()
 
-########################################################
-# Data taken from World View Earth NASA
-# Here we consider the land surface reflectance, red band 7, green band 1 and blue band 1
-# This combination is most useful for distinguishing burn scars from naturally low vegetation 
-# or bare soil and enhancing floods. Vegetation will appear green and burned areas will appear reddish.
-
-suppressWarnings({
-  land_march_2022 <- rast ("land_reflectance_march.jpeg" 
-  )
-})
-
-suppressWarnings({
-  land_april_2022 <- rast ("land_reflectance_april.jpeg" 
-  )
-})
-
-suppressWarnings({
-  land_may_2022 <- rast("land_reflectance_may.jpeg" 
-  )
-})
-
-plot(land_march_2022, col=viridis)
-plot(land_april_2022, col=viridis)
-plot(land_may_2022, col=viridis)
-
-dev.off()
-
-# We plot the three graphics all together to see the differences between months
-par(mfrow=c(1,3))
-RGB_march <- im.plotRGB(march_stack, r=3, g=2, b=1)
-title("LSR March", line = -6, cex=2) 
-RGB_april <- im.plotRGB(april_stack, r=3, g=2, b=1)
-title("LSR April", line = -6, cex=2)  
-RGB_may <- im.plotRGB(may_stack, r=3, g=2, b=1)
-title("LSR May", line = -6, cex= 2)
-
-dev.off()
-
 ##############################################
 # Data taken from Copernicus Browser
 # We calculate the NBR index, a standard for fire severity assesment.
