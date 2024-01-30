@@ -20,20 +20,13 @@ plot(BA_march_2022)
 title("Burned Areas March", line = -1, cex=2) 
 plot(BA_april_2022)
 title("Burned Areas April", line = -1, cex=2) 
+dev.off()
 
 ########################################################
-
 # Data taken from World View Earth NASA
 # Here we consider the land surface reflectance, red band 7, green band 1 and blue band 1
 # This combination is most useful for distinguishing burn scars from naturally low vegetation 
 # or bare soil and enhancing floods. Vegetation will appear green and burned areas will appear reddish.
-# install.packages("raster") 
-library(imageRy)
-library(terra)
-library(viridis)
-
-getwd()
-setwd("/Users/riolli/Desktop/GCE/R/R_project_SEA_BA/images_R")
 
 suppressWarnings({
   land_march_2022 <- rast ("land_reflectance_march.jpeg" 
@@ -55,7 +48,6 @@ plot(land_april_2022, col=viridis)
 plot(land_may_2022, col=viridis)
 
 dev.off()
-##############
 
 # We plot the three graphics all together to see the differences between months
 par(mfrow=c(1,3))
@@ -72,25 +64,38 @@ dev.off()
 # Data taken from Copernicus Browser
 # We calculate the NBR index, a standard for fire severity assesment.
 # It is used to highlight burned areas in large fire zones.
-# We first calculate it for february 2023 and then for march 2023, following a single data approach.
-march_8A <- rast("Band_8a_march_2023.jpg")
-plot(march_8A)
-march_12 <-rast("Band_12_march_2023.jpg")
-plot(march_12)
-# 1)
+# We first calculate it for march 2023 and then for may 2023, following a single data approach.
+cl.ba <- colorRampPalette(c("yellow", "darkblue","black"))(100)
+suppressWarnings({
+  march_8A <- rast("Band_8a_march_2023.jpg")
+})
+plot(march_8A, col=cl.ba)
+suppressWarnings({
+  march_12 <-rast("Band_12_march_2023.jpg")
+})
+plot(march_12, col=cl.ba)
+
+# 1, march 2023)
 
 diff.march= march_12 - march_8A
-plot(diff.march)
+plot(diff.march, col=cl.ba)
 sum.march= march_12 + march_8A
 plot(sum.march)
 NBR_march= (diff.march) / (sum.march)
 viridis<-colorRampPalette(viridis(7))(255)
 plot(NBR_march, col=viridis)
 
-# 2)
-# We do the same some months after, in may 2023
+# 2, may 2023)
+suppressWarnings({
+  may_8A <- rast("Band_8a_may_2023.jpg")
+})
+plot(may_8A, col=cl.ba)
+suppressWarnings({
+  may_12 <-rast("Band_12_may_2023.jpg")
+})
+plot(may_12, col=cl.ba)
 
-plot(SWIR_may_2023_3)
+
 diff.may= may_12 - may_8A
 plot(diff.may)
 sum.may= may_12 + may_8A
@@ -106,66 +111,78 @@ plot(NBR_may, col=viridis)
 # obtained one close to the other.
 
 NBR_stack <- c(NBR_march, NBR_may)
-plot(NBR_stack, col=viridis)
 names(NBR_stack) <- c("NBR march", "NBR april")
+plot(NBR_stack, col=viridis)
 
 # To bring it to another level, we calculate the delta between the two.
 # This is the bi-temporal approach.
 delta_BA = (NBR_may) - (NBR_march)
-plot(delta_BA, col=viridis)
+plot(delta_BA, col=cl.ba) #we use ColorRampPalette to enlgiht even more the Burned Areas
+title("Mapping of burned areas with NBR", line = +2.5, cex=2) 
 
-# We calculate a second index, a better one, called the NBR+, which help us to not get confused
-# between the reflectance caused by the clouds
-# We need to more bands of the same image, in this way the clouds reflectance will end in the 12th band
-# and our BA will become easier to spot, less chance that they will be covered.
-march_2 <- rast("Band_2_march_2023.jpg")
-plot(march_2)
-march_3 <- rast("Band_3_march_2023.jpg")
-plot(march_3)
+# We calculate a second index, a better one, called the NBR+, which masks water bodies and clouds.
+# We need to add more bands, in this way the clouds reflectance will end in the 12th band
+# and our BA will become easier to get spotted, less chance that they will be covered.
+# 1) NBR+ index with March 2023 data:
+suppressWarnings({
+  march_2 <- rast("Band_2_march_2023.jpg")
+})
+plot(march_2, col=cl.ba)
+suppressWarnings({
+  march_3 <- rast("Band_3_march_2023.jpg")
+})
+plot(march_3, col=cl.ba)
 
-# 1)
 diff.NBRR= (march_12 - march_8A - march_3 - march_2)
-plot(diff.NBRR)
+plot(diff.NBRR, col=viridis)
 sum.NBRR= (march_12 + march_8A + march_3 + march_2)
-plot(sum.NBRR)
+plot(sum.NBRR, col=viridis)
 NBRR_march= (diff.NBRR) / (sum.NBRR)
 plot(NBRR_march, col=viridis)
 
-# If we want, we can compare the two index in the same month
+# If we want, we can compare march's two indeces
 par(mfrow=c(1,2))
 plot(NBR_march, col=viridis)
+title("NBR march", line = -1, cex=1.5) 
 plot(NBRR_march, col=viridis)
+title("NBR+ march", line = -1, cex=1.5) 
+dev.off()
 
-#2)
-may_2 <- rast("Band_2_may_2023.jpg")
-plot(may_2)
-may_3 <- rast("Band_3_may_2023.jpg")
-plot(may_3)
-may_8A <- rast("Band_8a_may_2023.jpg")
-plot(may_8A)
-may_12 <-rast("Band_12_may_2023.jpg")
-plot(may_12)
+#2) NBR+ index with May 2023 data
+suppressWarnings({
+  may_2 <- rast("Band_2_may_2023.jpg")
+})
+plot(may_2, col=viridis)
+suppressWarnings({
+  may_3 <- rast("Band_3_may_2023.jpg")
+}) 
+plot(may_3, col=viridis)
 
-# We proceed in calculating the index NBR+ as follow:
 diff.NBRR.may= (may_12 - may_8A - may_3 - may_2)
-plot(diff.NBRR.may)
+plot(diff.NBRR.may, col=viridis)
 sum.NBRR.may= (may_12 + may_8A + may_3 + may_2)
-plot(sum.NBRR.may)
+plot(sum.NBRR.may, col=viridis)
 NBRR_may= (diff.NBRR.may) / (sum.NBRR.may)
 plot(NBRR_may, col=viridis)
 
-# If we want we can compare the two indeces in the same month
+# If we want we can compare may's two indices
 par(mfrow=c(1,2))
 plot(NBR_may, col=viridis)
+title("NBR may", line = -1, cex=1.5) 
 plot(NBRR_may, col=viridis)
+title("NBR may+", line = -1, cex=1.5) 
 
-# Again we calculate the delta to map the burned areas, this time for NBR+ index
+# Again we calculate the delta to map the burned areas
 delta_NBRR= (NBRR_may) - (NBRR_march)
-plot(delta_NBRR, col=viridis)
+plot(delta_NBRR, col=cl.ba)
+title("Mapping of Burned Areas with NBR+", line = +2.5, cex=1.5) 
 
 dev.off()
 
-# We compare the two delta
+# We compare the two deltas
 par(mfrow=c(1,2))
-plot(delta_BA, col=viridis)
-plot(delta_NBRR, col=viridis)
+plot(delta_BA, col=cl.ba)
+title("NBR mappping", line = +2.5, cex=1.5) 
+plot(delta_NBRR, col=cl.ba)
+title("NBR+ mapping", line = +2.5, cex=1.5) 
+
