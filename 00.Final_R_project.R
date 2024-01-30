@@ -7,8 +7,9 @@ library(patchwork)
 getwd()
 setwd("/Users/riolli/Desktop/GCE/R/R_project_SEA_BA/images_R")
 
-# Different burned areas during the two months of march and paril
-# March is when the burning season starts while april is in full burning season
+# The aim of the project is to map the burned areas between the months of march and may in South East Asia.
+# First we show the different amount of fires present in the area during march(when the season has just started)
+# and april (late season).
 # Data taken from World View Earth NASA
 suppressWarnings({
 BA_march_2022 <- rast("BA_march.jpeg")
@@ -26,10 +27,10 @@ dev.off()
 
 ##############################################
 # Data taken from Copernicus Browser
-# We calculate the NBR index, a standard for fire severity assesment.
+# We calculate the NBR index, a standard for fire severity assessment.
 # It is used to highlight burned areas in large fire zones.
 # We first calculate it for march 2023 and then for may 2023, following a single data approach.
-cl.ba <- colorRampPalette(c("yellow", "darkblue","black"))(100)
+cl.ba <- colorRampPalette(c("yellow", "darkblue","black"))(100) 
 suppressWarnings({
   march_8A <- rast("Band_8a_march_2023.jpg")
 })
@@ -44,10 +45,10 @@ plot(march_12, col=cl.ba)
 diff.march= march_12 - march_8A
 plot(diff.march, col=cl.ba)
 sum.march= march_12 + march_8A
-plot(sum.march)
+plot(sum.march, col=cl.ba)
 NBR_march= (diff.march) / (sum.march)
-viridis<-colorRampPalette(viridis(7))(255)
-plot(NBR_march, col=viridis)
+viridis<-colorRampPalette(viridis(7))(255) #recall package viridis
+plot(NBR_march, col=viridis) # we use viridis to enhance differences
 
 # 2, may 2023)
 suppressWarnings({
@@ -59,19 +60,18 @@ suppressWarnings({
 })
 plot(may_12, col=cl.ba)
 
-
+# the index is calculated as follow:
 diff.may= may_12 - may_8A
-plot(diff.may)
+plot(diff.may, col=viridis)
 sum.may= may_12 + may_8A
-plot(sum.may)
+plot(sum.may, col=viridis)
 NBR_may= (diff.may) / (sum.may)
-viridis<-colorRampPalette(viridis(7))(255)
 plot(NBR_may, col=viridis)
 
 # We create a stack with the two indeces, to see the differences between march and may
 # This is a good way to graphically see the differences among the short-term fires situation
 # and the long-term post fires one. 
-# What are we ding is to compare the two single date approach previously
+# What are we doing is to compare the two single date approach previously
 # obtained one close to the other.
 
 NBR_stack <- c(NBR_march, NBR_may)
@@ -81,7 +81,7 @@ plot(NBR_stack, col=viridis)
 # To bring it to another level, we calculate the delta between the two.
 # This is the bi-temporal approach.
 delta_BA = (NBR_may) - (NBR_march)
-plot(delta_BA, col=cl.ba) #we use ColorRampPalette to enlgiht even more the Burned Areas
+plot(delta_BA, col=cl.ba) #we use ColorRampPalette to enlight even more the Burned Areas
 title("Mapping of burned areas with NBR", line = +2.5, cex=2) 
 
 # We calculate a second index, a better one, called the NBR+, which masks water bodies and clouds.
@@ -116,11 +116,11 @@ dev.off()
 suppressWarnings({
   may_2 <- rast("Band_2_may_2023.jpg")
 })
-plot(may_2, col=viridis)
+plot(may_2, col=cl.ba)
 suppressWarnings({
   may_3 <- rast("Band_3_may_2023.jpg")
 }) 
-plot(may_3, col=viridis)
+plot(may_3, col=cl.ba)
 
 diff.NBRR.may= (may_12 - may_8A - may_3 - may_2)
 plot(diff.NBRR.may, col=viridis)
@@ -176,12 +176,22 @@ pNBRR
 
 # We built the final table (so our dataframe)
 class <- c("BA", "Un-BA")
-yNBR <- c(40, 60)
-yNBRR <- c(42, 58) 
+NBRDelta <- c(40, 60)
+NBRRDelta <- c(42, 58) #already from here we can tell that our NBRR index increased of 2% the efficiency of BA detection
 
+#We create our data frame, we will use to create barplots then
 final_table <- data.frame(class, yNBR, yNBRR)
 final_table
 
-p1 <- ggplot(final_table, aes(x=class, y=yNBR, color=class)) + geom_bar(stat="identity", fill="lightyellow")
-p2 <- ggplot(final_table, aes(x=class, y=yNBRR, color=class)) + geom_bar(stat="identity", fill="lightyellow")
+#We plot the two barplots together, to do that we use the function ggplot
+#Recall to have installed the ggplot package and the patchwork one. The last one will allow us to add to our variables
+#the plots (by using the geom_bar function)
+NBR_barplot <- ggplot(final_table, aes(x=class, y=NBRDelta, color=class)) + geom_bar(stat="identity", fill="lightyellow")
+NBRR_barplot <- ggplot(final_table, aes(x=class, y=NBRRDelta, color=class)) + geom_bar(stat="identity", fill="lightyellow")
+NBR_barplot + NBRR_barplot
+
+#Last modification, we set the y range between 0-100 (the percentage)
+p1 <- ggplot(final_table, aes(x=class, y=NBRDelta, color=class)) + geom_bar(stat="identity", fill="white") + ylim(c(0,100))
+p2 <- ggplot(final_table, aes(x=class, y=NBRRDelta, color=class)) + geom_bar(stat="identity", fill="white") + ylim(c(0,100))
 p1 + p2
+
