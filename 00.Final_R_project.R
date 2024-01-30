@@ -135,13 +135,13 @@ plot(NBR_may, col=viridis)
 title("NBR may", line = -1, cex=1.5) 
 plot(NBRR_may, col=viridis)
 title("NBR may+", line = -1, cex=1.5) 
+dev.off()
 
 # Again we calculate the delta to map the burned areas
 delta_NBRR= (NBRR_may) - (NBRR_march)
 plot(delta_NBRR, col=cl.ba)
 title("Mapping of Burned Areas with NBR+", line = +2.5, cex=1.5) 
 
-dev.off()
 
 # We compare the two deltas
 par(mfrow=c(1,2))
@@ -149,6 +149,7 @@ plot(delta_BA, col=cl.ba)
 title("NBR mappping", line = +2.5, cex=1.5) 
 plot(delta_NBRR, col=cl.ba)
 title("NBR+ mapping", line = +2.5, cex=1.5) 
+dev.off()
 
 #We then classify the two delta data as follow, since its value goes between -1 and 1, where positive values
 #mean unburned areas and negative values mean burned areas
