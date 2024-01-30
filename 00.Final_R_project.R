@@ -1,6 +1,8 @@
 library(imageRy)
 library(terra)
 library(viridis)
+library(ggplot)
+library(patchwork)
 
 getwd()
 setwd("/Users/riolli/Desktop/GCE/R/R_project_SEA_BA/images_R")
@@ -186,3 +188,38 @@ title("NBR mappping", line = +2.5, cex=1.5)
 plot(delta_NBRR, col=cl.ba)
 title("NBR+ mapping", line = +2.5, cex=1.5) 
 
+#We then classify the two delta data as follow, since its value goes between -1 and 1, where positive values
+#mean unburned areas and negative values mean burned areas
+#classes: 1=burned areas and 2=unberned areas
+classNBRR <-im.classify(delta_NBRR, num_clusters = 2)
+plot(classNBRR, col=viridis)
+
+classNBR <-im.classify(delta_BA, num_clusters=2)
+plot(classNBR, col=viridis)
+
+#We calculate their frequency
+fNBR <- freq(classNBR)
+fNBR
+fNBRR <-freq(classNBRR)
+fNBRR
+
+totNBR <- ncell(classNBR)
+totNBRR <- ncell(classNBRR)
+#We calculate their percentage
+pNBR <- fNBR * 100 / totNBR
+pNBR
+
+pNBRR <-fNBRR * 100 / totNBRR
+pNBRR
+
+# We built the final table (so our dataframe)
+class <- c("BA", "Un-BA")
+yNBR <- c(40, 60)
+yNBRR <- c(42, 58) 
+
+final_table <- data.frame(class, yNBR, yNBRR)
+final_table
+
+p1 <- ggplot(final_table, aes(x=class, y=yNBR, color=class)) + geom_bar(stat="identity", fill="lightyellow")
+p2 <- ggplot(final_table, aes(x=class, y=yNBRR, color=class)) + geom_bar(stat="identity", fill="lightyellow")
+p1 + p2
