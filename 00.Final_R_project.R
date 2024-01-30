@@ -192,7 +192,7 @@ NBRR_barplot <- ggplot(final_table, aes(x=class, y=NBRRDelta, color=class)) + ge
 NBR_barplot + NBRR_barplot
 
 #Last modification, we set the y range between 0-100 (the percentage)
-p1 <- ggplot(final_table, aes(x=class, y=NBRDelta, color=class)) + geom_bar(stat="identity", fill="white") + ylim(c(0,100))
-p2 <- ggplot(final_table, aes(x=class, y=NBRRDelta, color=class)) + geom_bar(stat="identity", fill="white") + ylim(c(0,100))
-p1 + p2
+NBR_barplot <- ggplot(final_table, aes(x=class, y=NBRDelta, color=class)) + geom_bar(stat="identity", fill="white") + ylim(c(0,100))
+NBRR_barplot <- ggplot(final_table, aes(x=class, y=NBRRDelta, color=class)) + geom_bar(stat="identity", fill="white") + ylim(c(0,100))
+NBR_barplot + NBRR_barplot
 
