@@ -1085,6 +1085,7 @@ plot(sd3, col=viridis)
 par(mfrow=c(1,2))
 im.plotRGB(sent, r=2, g=1, b=3)
 plot(sd7, col=viridis)
+
 #high variability in the ecosystem means more species living in the ecosystem
 
 calculation
@@ -1103,8 +1104,9 @@ plot(sd7, col=viridis)
 # first we take sentinel data and, instead of choosing only one band, we perform pca, than we take the first principal components and use it for the calculation
 im.list()
 sent <- im.import("sentinel.png")
-pairs(sent) # vedi da Stefania i commenti
+pairs(sent) 
 dev.off()
+
 #Now we perform PCA
 sentpc <- im.pca2(sent)
 pc1 <- sentpc$PC1 #we link it with PC1 value
