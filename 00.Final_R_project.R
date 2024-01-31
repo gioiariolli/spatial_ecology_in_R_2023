@@ -1,7 +1,7 @@
 library(imageRy)
 library(terra)
 library(viridis)
-library(ggplot)
+library(ggplot2)
 library(patchwork)
 
 getwd()
